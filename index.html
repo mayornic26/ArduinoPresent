@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <style>
+<style>
 body {
     font-family: Arial;
     background: linear-gradient(to right, #b3e5fc, #e1f5fe);
@@ -23,22 +23,22 @@ p {
 img {
     display: block;
     margin: 20px auto;
-    border-radius: 10px;
     width: 300px;
 }
 
 button {
     background-color: #004b95;
     color: white;
-    padding: 12px;
-    border-radius: 8px;
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
 }
 
 div[id^="lesson"] {
     background-color: white;
     padding: 20px;
     margin-top: 20px;
-    border-radius: 12px;
 }
 
 ul, ol {
@@ -46,23 +46,23 @@ ul, ol {
 }
 
 li {
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 pre {
     background-color: #263238;
     color: #80cbc4;
-    padding: 15px;
-    border-radius: 10px;
+    padding: 10px;
 }
-
 </style>
+
 <body>
 
 <h1>Arduino Project Lessons by Nico</h1>
 
 <h2>What is Arduino?</h2>
 <p>Arduino is an open-source electronics platform based on easy-to-use hardware and software, designed for building digital devices and interactive objects.</p>
+
 <img src="https://i.ytimg.com/vi/m7YUU9PtGM4/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCSpNYAJ_g13hBBYvKmGqL-7eyyCA" alt="arduino"> 
 
 <h2>How to Open Arduino IDE</h2>
@@ -85,13 +85,23 @@ pre {
 <button onclick="showLesson('lesson1')">Lesson 1: Blinking LED</button>
 <button onclick="showLesson('lesson2')">Lesson 2: Potentiometer</button>
 <button onclick="showLesson('lesson3')">Lesson 3: Servo</button>
+<button onclick="showLesson('lesson4')">Lesson 4: Button Input</button>
+<button onclick="showLesson('lesson5')">Lesson 5: Buzzer Sound</button>
 
+<!-- LESSON 1 -->
 <div id="lesson1" hidden>
     <h2>Lesson 1: Blinking LED</h2>
     <p>
     Connect GND to the negative rail and 5V to the positive rail. Connect a digital pin to the breadboard.
     Place the LED with the long leg connected to the signal wire. Add a resistor to the short leg and connect it to ground.
     </p>
+
+    <ul>
+        <li>Connect GND to the negative rail and 5V to the positive rail.</li>
+        <li>Connect a digital pin to the breadboard.</li>
+        <li>Place the LED with the long leg connected to the signal wire.</li>
+        <li>Add a resistor to the short leg and connect it to ground.</li>
+    </ul>
 
     <h3>Code:</h3>
     <pre>
@@ -108,7 +118,7 @@ void loop(){
     </pre>
 </div>
 
-
+<!-- LESSON 2 -->
 <div id="lesson2" hidden>
     <h2>Lesson 2: Potentiometer</h2>
     <p>
@@ -124,7 +134,7 @@ void loop(){
     </p>
 </div>
 
-
+<!-- LESSON 3 -->
 <div id="lesson3" hidden>
     <h2>Lesson 3: Servo Motor</h2>
     <p>A servo is an actuator used to control position.</p>
@@ -136,25 +146,92 @@ void loop(){
 
     <h3>Code:</h3>
     <pre>
-#include <Servo.h>          //include the servo library
+#include <Servo.h>
 
-int potPosition;           //this variable will store the position of the potentiometer
-int servoPosition;         //the servo will move to this position
+int potPosition;
+int servoPosition;
 
-Servo myservo;              //create a servo object
+Servo myservo;
 
 void setup() {
-  myservo.attach(9);        //tell the servo object that its servo is plugged into pin 9
+  myservo.attach(9);
 }
 
 void loop() {
-  potPosition = analogRead(A0);                     //use analog read to measure the position of the potentiometer (0-1023)
-  servoPosition = map(potPosition, 0, 1023, 20, 160); //convert the potentiometer number to a servo position from 20-160
-                                                      //Note: its best to avoid driving the little SIK servos all the
-                                                      //way to 0 or 180 degrees it can cause the motor to jitter, which is bad for the servo.
-  myservo.write(servoPosition);                      //move the servo to the 10 degree position
+  potPosition = analogRead(A0);
+  servoPosition = map(potPosition, 0, 1023, 20, 160);
+  myservo.write(servoPosition);
+}
+    </pre>
+</div>
+
+<!-- LESSON 4 -->
+<div id="lesson4" hidden>
+    <h2>Lesson 4: Button Input</h2>
+    <p>This project teaches how to read input from a button and control an LED.</p>
+
+    <ul>
+        <li>One side of button -> 5V</li>
+        <li>Other side -> Pin 2</li>
+        <li>Resistor (10kΩ) from Pin 2 -> GND</li>
+        <li>LED long leg -> Pin 13</li>
+        <li>LED short leg -> resistor -> GND</li>
+    </ul>
+
+    <h3>Code:</h3>
+    <pre>
+int buttonPin = 2;
+int ledPin = 13;
+int buttonState = 0;
+
+void setup() {
+  pinMode(buttonPin, INPUT);
+  pinMode(ledPin, OUTPUT);
 }
 
+void loop() {
+  buttonState = digitalRead(buttonPin);
+
+  if (buttonState == HIGH) {
+    digitalWrite(ledPin, HIGH);
+  } else {
+    digitalWrite(ledPin, LOW);
+  }
+}
+    </pre>
+</div>
+
+<!-- LESSON 5 -->
+<div id="lesson5" hidden>
+    <h2>Lesson 5: Buzzer Sound</h2>
+    <p>This project uses a buzzer to create sound using different tones.</p>
+
+    <ul>
+        <li>Positive leg of buzzer -> Pin 8</li>
+        <li>Negative leg -> GND</li>
+    </ul>
+
+    <h3>Code:</h3>
+    <pre>
+int buzzer = 8;
+
+void setup() {
+  pinMode(buzzer, OUTPUT);
+}
+
+void loop() {
+  tone(buzzer, 1000);
+  delay(500);
+
+  noTone(buzzer);
+  delay(500);
+
+  tone(buzzer, 1500);
+  delay(500);
+
+  noTone(buzzer);
+  delay(1000);
+}
     </pre>
 </div>
 
@@ -163,6 +240,8 @@ function showLesson(id) {
     document.getElementById("lesson1").style.display = "none";
     document.getElementById("lesson2").style.display = "none";
     document.getElementById("lesson3").style.display = "none";
+    document.getElementById("lesson4").style.display = "none";
+    document.getElementById("lesson5").style.display = "none";
 
     document.getElementById(id).style.display = "block";
 }
