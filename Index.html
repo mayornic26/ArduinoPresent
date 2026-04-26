@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <style>
+body {
+    font-family: Arial;
+    background: linear-gradient(to right, #b3e5fc, #e1f5fe);
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #0d47a1;
+}
+
+h2 {
+    color: #0d47a1;
+}
+
+p {
+    color: #0d47a1;
+}
+
+img {
+    display: block;
+    margin: 20px auto;
+    border-radius: 10px;
+    width: 300px;
+}
+
+button {
+    background-color: #004b95;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+div[id^="lesson"] {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 12px;
+}
+
+ul, ol {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+pre {
+    background-color: #263238;
+    color: #80cbc4;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+</style>
+<body>
+
+<h1>Arduino Project Lessons by Nico</h1>
+
+<h2>What is Arduino?</h2>
+<p>Arduino is an open-source electronics platform based on easy-to-use hardware and software, designed for building digital devices and interactive objects.</p>
+<img src="https://i.ytimg.com/vi/m7YUU9PtGM4/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCSpNYAJ_g13hBBYvKmGqL-7eyyCA" alt="arduino"> 
+
+<h2>How to Open Arduino IDE</h2>
+<ol>
+    <li>Connect your ReadBoard to your computer.</li>
+    <li>Search for Arduino IDE download</li>
+    <li>Go to: <a href="https://www.arduino.cc/en/software/" target="_blank">Arduino Software Download</a></li>
+    <li>Install version 2.3.8 for your operating system</li>
+    <li>Open the IDE after installing</li>
+    <li>Go to Tools -> Board -> Select Arduino Uno</li>
+    <li>Select the correct Port after plugging in USB</li>
+</ol>
+
+<p><b>Wiring Tips:</b></p>
+<ul>
+    <li>Wire color does not matter, but typically red = positive and black = negative.</li>
+    <li>LED long leg = positive, short leg = negative.</li>
+</ul>
+
+<button onclick="showLesson('lesson1')">Lesson 1: Blinking LED</button>
+<button onclick="showLesson('lesson2')">Lesson 2: Potentiometer</button>
+<button onclick="showLesson('lesson3')">Lesson 3: Servo</button>
+
+<div id="lesson1" hidden>
+    <h2>Lesson 1: Blinking LED</h2>
+    <p>
+    Connect GND to the negative rail and 5V to the positive rail. Connect a digital pin to the breadboard.
+    Place the LED with the long leg connected to the signal wire. Add a resistor to the short leg and connect it to ground.
+    </p>
+
+    <h3>Code:</h3>
+    <pre>
+void setup(){
+  pinMode(13, OUTPUT);
+}
+
+void loop(){
+  digitalWrite(13, HIGH);
+  delay(1000);
+  digitalWrite(13, LOW);
+  delay(1000);
+}
+    </pre>
+</div>
+
+
+<div id="lesson2" hidden>
+    <h2>Lesson 2: Potentiometer</h2>
+    <p>
+    A potentiometer is a variable resistor that changes resistance.
+    </p>
+    <ul>
+        <li>Middle pin -> A0</li>
+        <li>Left pin -> Positive rail</li>
+        <li>Right pin -> Negative rail</li>
+    </ul>
+    <p>
+    Connect LED with resistor to ground and signal pin.
+    </p>
+</div>
+
+
+<div id="lesson3" hidden>
+    <h2>Lesson 3: Servo Motor</h2>
+    <p>A servo is an actuator used to control position.</p>
+    <ul>
+        <li>Red wire -> 5V</li>
+        <li>Black wire -> GND</li>
+        <li>Signal wire -> Pin 9 (number of pin does not matter)</li>
+    </ul>
+
+    <h3>Code:</h3>
+    <pre>
+#include <Servo.h>          //include the servo library
+
+int potPosition;           //this variable will store the position of the potentiometer
+int servoPosition;         //the servo will move to this position
+
+Servo myservo;              //create a servo object
+
+void setup() {
+  myservo.attach(9);        //tell the servo object that its servo is plugged into pin 9
+}
+
+void loop() {
+  potPosition = analogRead(A0);                     //use analog read to measure the position of the potentiometer (0-1023)
+  servoPosition = map(potPosition, 0, 1023, 20, 160); //convert the potentiometer number to a servo position from 20-160
+                                                      //Note: its best to avoid driving the little SIK servos all the
+                                                      //way to 0 or 180 degrees it can cause the motor to jitter, which is bad for the servo.
+  myservo.write(servoPosition);                      //move the servo to the 10 degree position
+}
+
+    </pre>
+</div>
+
+<script>
+function showLesson(id) {
+    document.getElementById("lesson1").style.display = "none";
+    document.getElementById("lesson2").style.display = "none";
+    document.getElementById("lesson3").style.display = "none";
+
+    document.getElementById(id).style.display = "block";
+}
+</script>
+
+</body>
+</html>
