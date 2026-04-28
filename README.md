@@ -1,1 +1,2 @@
 # ArduinoPresent
+This project is a tutorial for students who are learning Arduino with breadboards. I teach the students on this page who to easily setup the Arduino IDE app and I teach 5 tutorials using buttons to explain different projects they can do with the arduino kits they have in class. This course will teach students how to learn skills of arduino and coding without being confused on what they are doing and if they are doing a step wrong alone.
